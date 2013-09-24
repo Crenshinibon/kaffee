@@ -1,0 +1,105 @@
+<head>
+  <title>Kaffee</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        {{> header}}
+        {{> newWithdrawels}}
+        {{> newInvestments}}
+        {{> history}}
+    </div>
+</body>
+
+<template name="header">
+    <div class="row-fluid" style="padding-bottom: 10px">
+        <div class="span2">
+        {{loginButtons}}
+        </div>
+        <div class="span2">
+            Kaffeepreis: {{costPerCoffee}} €
+        </div>
+        {{#if currentUser}}
+        <span class="span4">
+        <button class="btn btn-small add-coffee">
+            Ein Kaffee!
+        </button>
+        <button class="btn btn-small add-investment">
+            Einzahlung
+        </button>
+        <button class="btn btn-small add-withdrawel">
+            Entnahme
+        </button>
+        </span>
+        <div class="span2">
+            <span class="badge">
+            User Saldo: {{userSaldo}}
+            </span>
+        </div>
+        <div class="span2">
+            <span class="badge">
+            Saldo: {{totalSaldo}}
+            </span>
+        </div>
+        {{/if}}
+    </div>
+</template>
+
+<template name="newInvestments">
+    {{#each transactions}}
+    {{> newTransaction}}
+    {{/each}}
+</template>
+
+<template name="newWithdrawels">
+    {{#each transactions}}
+    {{> newTransaction}}
+    {{/each}}
+</template>
+
+<template name="newTransaction">
+    <div class="row-fluid">
+        <div class="well span12 {{finType}}">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <form class="form-inline" id="{{_id}}" style="margin:5px;">
+                        <span class="span3">User: {{user}}</span>
+                        <span class="span3">Wann: {{dateAdded}}</span>
+                        <span class="span3">Typ:
+                        <select class="input-medium">
+                            {{#each types this}}
+                            <option id="{{name}}" {{selected}}>{{name}}</option>
+                            {{/each}}
+                        </select>
+                        </span>
+                        <span class="span2">Summe:
+                        <input class="input-mini" type="text" value="{{amount}}">
+                        €</span>
+                        <button class="btn btn-small" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="history">
+    {{#each transactions}}
+    {{> transaction}}
+    {{/each}}
+</template>
+
+<template name="transaction">
+    <div class="row-fluid">
+        <div class="well span12 {{finType}}">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span3">User: {{user}}</div>
+                    <div class="span3">Wann: {{dateAdded}}</div>
+                    <div class="span3">Typ: {{type}}</div>
+                    <div class="span3 {{amountHighlight}}">Summe: {{amount}}€</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
