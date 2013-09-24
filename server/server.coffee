@@ -10,13 +10,14 @@ Meteor.publish 'transactions', () ->
 Meteor.publish 'meta', () ->
     Meta.find {}
 
-Meteor.startup = () ->
+Meteor.startup () ->
     cp = Meta.findOne {currentCoffeePrice: {$exists: true}}
     unless cp?
-        Meta.insert {currentCoffeePrice: 0.22}
+        Meta.insert {currentCoffeePrice: 0.25}
     
 Meteor.methods
     'setCoffeePrice': (amount) ->
         user = Meteor.users.findOne {_id: @userId}
         if user.username is 'admin'
             Meta.update {currentCoffeePrice: {$exists: true}}, {currentCoffeePrice: amount}
+        
